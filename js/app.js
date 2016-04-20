@@ -28,17 +28,25 @@ function newGame (){
 	$("#userGuess").val("");
 	$("#guessList").text("");
 	$("#feedback").text("Make your Guess!");
-	
+
 }
 function registerGuess(event){
 	event.preventDefault();
 	var currentGuess = $(this).parent("form").children("#userGuess").val();
 	$(this).parent("form").children("#userGuess").val("");
+	currentGuess = parseInt(currentGuess);
+
 	console.log("Guess is "+currentGuess);
-	counter++;
-	$("#count").text(counter);
-	$("#guessList").append("<li>"+currentGuess+"</li>")
-	giveFeedback(currentGuess);
+
+	if(!currentGuess){
+		alert("That's not a number, silly. Please enter a NUMBER");
+	}
+	else{
+		counter++;
+		$("#count").text(counter);
+		$("#guessList").append("<li>"+currentGuess+"</li>")
+		giveFeedback(currentGuess);
+	}
 }
 
 function giveFeedback(guessNum){
