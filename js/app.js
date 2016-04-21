@@ -12,8 +12,7 @@ $(document).ready(function(){
   		$(".overlay").fadeOut(1000);
   	});
 
-  	var goldenNum;
-  	// var guessArray = new Array[];
+  	var goldenNum =1;
   	var counter =0;
   	newGame();
   	$(".new").click(newGame);
@@ -22,25 +21,26 @@ $(document).ready(function(){
 });
 function newGame (){
 	goldenNum = Math.floor((Math.random()*100)+1);
-	console.log(goldenNum);
 	counter = 0;
+	
+	$("#feedback").text("Make your Guess!");
 	$("#count").text(counter);
 	$("#userGuess").val("");
 	$("#guessList").text("");
-	$("#feedback").text("Make your Guess!");
 
 }
 function registerGuess(event){
 	event.preventDefault();
-	var currentGuess = $(this).parent("form").children("#userGuess").val();
-	$(this).parent("form").children("#userGuess").val("");
+	var currentGuess = $("#userGuess").val();
+	$("#userGuess").val("");
 	currentGuess = parseInt(currentGuess);
 
-	console.log("Guess is "+currentGuess);
-
-	if(!currentGuess){
+	if(isNaN(currentGuess)){
 		alert("That's not a number, silly. Please enter a NUMBER");
 	}
+	else if((currentGuess<1) || (currentGuess>100)){
+		alert("Please choose a number between 1 and 100 (inclusive)");
+	}	
 	else{
 		counter++;
 		$("#count").text(counter);
@@ -52,7 +52,10 @@ function registerGuess(event){
 function giveFeedback(guessNum){
 	var feedbackText = "freezing cold";
 	var delta = Math.abs(guessNum - goldenNum);
-	if (delta <= 10){
+	if (delta ==0 ){
+		feedbackText="hooray you won!!";
+	}
+	else if (delta <= 10){
 		feedbackText="boiling hot!";
 	}
 	else if (delta <= 20) {
@@ -67,7 +70,6 @@ function giveFeedback(guessNum){
 	else {
 		feedbackText="freezing cold";
 	}
-	console.log(feedbackText);
 	$("#feedback").text(feedbackText);
 }
 
